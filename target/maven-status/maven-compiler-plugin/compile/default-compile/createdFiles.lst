@@ -1,0 +1,3 @@
+nightwalker\api\Application.class
+nightwalker\api\controllers\WidgetController.class
+nightwalker\api\models\Widget.class

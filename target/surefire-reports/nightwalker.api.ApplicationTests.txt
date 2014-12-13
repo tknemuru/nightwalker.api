@@ -1,0 +1,13 @@
+-------------------------------------------------------------------------------
+Test set: nightwalker.api.ApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 4.567 sec <<< FAILURE! - in nightwalker.api.ApplicationTests
+testHome(nightwalker.api.ApplicationTests)  Time elapsed: 4.353 sec  <<< FAILURE!
+java.lang.AssertionError: Response content
+Expected: a string containing "ninja.png"
+     but: was "{"type":"green","length":10,"height":7}"
+	at org.springframework.test.util.MatcherAssertionErrors.assertThat(MatcherAssertionErrors.java:76)
+	at org.springframework.test.web.servlet.result.ContentResultMatchers$4.match(ContentResultMatchers.java:132)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:149)
+	at nightwalker.api.ApplicationTests.testHome(ApplicationTests.java:41)
+
