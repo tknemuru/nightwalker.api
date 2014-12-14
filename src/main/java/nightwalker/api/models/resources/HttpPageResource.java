@@ -7,20 +7,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * HTTPページリソース
  * Created by takashi on 2014/12/14.
  */
-public class HttpPageResource implements IResource {
+public final class HttpPageResource implements IResource {
     /**
      * URL
      */
-    private URL _url;
+    private URL Url;
 
     /**
      * コンストラクタ
      * @param url URL
      */
     public HttpPageResource(String url) throws MalformedURLException {
-        this._url = new URL(url);
+        this.Url = new URL(url);
     }
 
     /**
@@ -28,7 +29,7 @@ public class HttpPageResource implements IResource {
      * @return HTMLページ
      */
     public String getContent() throws java.io.IOException {
-        HttpURLConnection connection = (HttpURLConnection)this._url.openConnection();
+        HttpURLConnection connection = (HttpURLConnection)this.Url.openConnection();
         connection.connect();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

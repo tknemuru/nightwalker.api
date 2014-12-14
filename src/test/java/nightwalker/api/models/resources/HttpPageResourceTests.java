@@ -9,6 +9,7 @@ public class HttpPageResourceTests {
     /**
      * HTMLが正常に読み込めることをテストします。
      * TODO:環境に左右されないテストにしたい…
+     *      このクラスだけはしようがない気もするけど、どうだろう。
      * @throws Exception
      */
     @Test
