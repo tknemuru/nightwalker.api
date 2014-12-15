@@ -1,10 +1,10 @@
-package nightwalker.api.models.resources;
+package nightwalker.api.models.resources.html;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class HttpPageResourceTests {
+public class PageResourceTests {
 
     /**
      * HTMLが正常に読み込めることをテストします。
@@ -13,10 +13,10 @@ public class HttpPageResourceTests {
      * @throws Exception
      */
     @Test
-    public void testGetContent() throws Exception {
-        String url = "http://nihachilab.herokuapp.com/";
-        HttpPageResource resource = new HttpPageResource(url);
-        String actual = resource.getContent();
+    public void HTMLが正常に読み込める() throws Exception {
+        String url = "http://example.com/";
+        PageResource resource = new PageResource(url);
+        String actual = resource.getHtml();
         assertTrue(actual.contains("<body>"));
     }
 }

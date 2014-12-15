@@ -37,7 +37,7 @@ public class ApplicationTests {
     @Test
     public void testHome() throws Exception {
 
-        this.mvc.perform(get("/api/v1/url/images/?target=http%3a%2f%2fnihachilab%2eherokuapp%2ecom%2f")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("ninja.png")));
+        this.mvc.perform(get("/api/v1/url/images/?target=http%3a%2f%2fwww%2e28lab%2ecom%2f")).andExpect(status().isOk())
+                .andExpect(content().string(containsString("http://www.28lab.com/Content/Image/fujitv.png")));
     }
 }
