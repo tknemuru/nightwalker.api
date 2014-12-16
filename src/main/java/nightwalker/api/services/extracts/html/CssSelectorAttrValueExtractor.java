@@ -8,14 +8,14 @@ import org.jsoup.nodes.Document;
 import java.util.stream.Stream;
 
 /**
- * 指定したHTMLタグのアトリビュート値を抽出する機能を提供します。
+ * 指定したCSSセレクタのアトリビュート値を抽出する機能を提供します。
  * Created by takashi on 2014/12/15.
  */
-public final class TagAttrValueExtractor extends ResourceExtractor {
+public final class CssSelectorAttrValueExtractor extends ResourceExtractor {
     /**
-     * 抽出対象のタグ名
+     * 抽出対象のCSSセレクタ
      */
-    private String TagName;
+    private String CssSelector;
 
     /**
      * 抽出対象のアトリビュートキー
@@ -24,11 +24,11 @@ public final class TagAttrValueExtractor extends ResourceExtractor {
 
     /**
      * コンストラクタ
-     * @param tagName 抽出対象のタグ名
+     * @param cssSelector 抽出対象のCSSセレクタ
      * @param attrKey 抽出対象のアトリビュートキー
      */
-    public TagAttrValueExtractor(String tagName, String attrKey) {
-        this.TagName = tagName;
+    public CssSelectorAttrValueExtractor(String cssSelector, String attrKey) {
+        this.CssSelector = cssSelector;
         this.AttrKey = attrKey;
     }
 
@@ -42,9 +42,9 @@ public final class TagAttrValueExtractor extends ResourceExtractor {
         // htmlからドキュメントを生成
         Document doc = Jsoup.parse(resource);
 
-        // 指定したタグのアトリビュート値を取得
+        // 指定したCSSセレクタのアトリビュート値を取得
         // 値が空の場合は取得対象外
-        Stream<String> values = doc.select(this.TagName).stream()
+        Stream<String> values = doc.select(this.CssSelector).stream()
                 .filter(tag -> !tag.attr(this.AttrKey).isEmpty())
                 .map(tag -> tag.attr(this.AttrKey));
 
