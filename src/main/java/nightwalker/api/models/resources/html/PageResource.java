@@ -4,6 +4,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import lombok.Getter;
+import org.jsoup.helper.StringUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,14 +21,20 @@ public final class PageResource {
      * URL
      */
     @Getter
-    private URL url;
+    private URL Url;
+
+    /**
+     * HTML
+     */
+    private String Html;
 
     /**
      * コンストラクタ
      * @param url URL
      */
     public PageResource(String url) throws MalformedURLException {
-        this.url = new URL(url);
+        this.Url = new URL(url);
+        this.Html = null;
     }
 
     /**
@@ -35,7 +42,7 @@ public final class PageResource {
      * @return HTMLページ
      */
     public String getHtml() throws java.io.IOException {
-        return this.getHtmlJavascriptDisabled();
+        return StringUtil.isBlank(this.Html) ? this.getHtmlJavascriptDisabled() : this.Html;
     }
 
     /**
@@ -43,7 +50,7 @@ public final class PageResource {
      * @return HTMLページ
      */
     private String getHtmlJavascriptDisabled() throws java.io.IOException {
-        HttpURLConnection connection = (HttpURLConnection)this.url.openConnection();
+        HttpURLConnection connection = (HttpURLConnection)this.Url.openConnection();
         connection.connect();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -64,7 +71,7 @@ public final class PageResource {
     private String getHtmlJavascriptEnabled() throws java.io.IOException {
         final WebClient webClient = new WebClient(BrowserVersion.FIREFOX_24);
         webClient.waitForBackgroundJavaScript(10000);
-        HtmlPage page = webClient.getPage(this.url);
+        HtmlPage page = webClient.getPage(this.Url);
 
         return page.asXml();
     }

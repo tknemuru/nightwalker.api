@@ -1,7 +1,7 @@
 package nightwalker.api.services.formats.html;
 
 import nightwalker.api.services.formats.IFormattable;
-import nightwalker.api.services.helper.UrlHelper;
+import nightwalker.api.helper.UrlHelper;
 
 import java.net.URI;
 import java.net.URISyntaxException;

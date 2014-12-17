@@ -1,5 +1,6 @@
 package nightwalker.api.services.helper;
 
+import nightwalker.api.helper.UrlHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

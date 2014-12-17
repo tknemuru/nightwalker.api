@@ -1,4 +1,4 @@
-package nightwalker.api.services.helper;
+package nightwalker.api.helper;
 
 import java.net.URI;
 import java.net.URISyntaxException;

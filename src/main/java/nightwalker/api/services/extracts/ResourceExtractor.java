@@ -1,6 +1,5 @@
 package nightwalker.api.services.extracts;
 
-import java.net.URISyntaxException;
 import java.util.stream.Stream;
 
 /**
