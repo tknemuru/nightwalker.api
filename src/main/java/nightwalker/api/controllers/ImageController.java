@@ -29,14 +29,14 @@ import java.util.stream.Collectors;
 public class ImageController {
     @RequestMapping(method = RequestMethod.GET
             , produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Image> index(HttpServletResponse response
+    public ImageControllerResponse index(HttpServletResponse response
             , @RequestParam("target") String targetUrl) throws URISyntaxException, java.io.IOException
     {
         // スクレイピング対象のページを読み込む
         PageResource resource = new PageResource(
                 URLDecoder.decode(targetUrl, StandardCharsets.UTF_8.name()));
 
-        // 抽出を実行
+        // 画像の抽出を実行
         ExtractedList imageUrls = new CssSelectorAttrValueExtractor("img", "src")
                 .extract(resource.getHtml())
                 .concat(new CssSelectorAttrValueExtractor("a", "href")
@@ -55,9 +55,46 @@ public class ImageController {
                 })
                 .collect(Collectors.toList());
 
+        // 次に読み込むリンク先の抽出を実行
+        ExtractedList hrefs = new CssSelectorAttrValueExtractor("a", "href")
+                .extract(resource.getHtml())
+                .extract(new FilenameExtensionExtractor())
+                .concat(new CssSelectorAttrValueExtractor("a", "href")
+                        .extract(resource.getHtml())
+                        .extract(new FilenameExtensionExtractor("html")))
+                .format(new AbsolutePathFormatter(resource.getUrl().toString()));
+
+        // 画像リストとリンク先リストをレスポンスに埋め込む
+        ImageControllerResponse myResponse = new ImageControllerResponse(images, hrefs);
+
         // レスポンスヘッダにAllow-Originを付与
         response.setHeader("Access-Control-Allow-Origin", "*");
 
-        return images;
+        return myResponse;
+    }
+
+    /**
+     * イメージコントローラのレスポンス
+     */
+    private class ImageControllerResponse {
+        /**
+         * コンストラクタ
+         * @param images 画像リスト
+         * @param hrefs リンク先URLリスト
+         */
+        public ImageControllerResponse(List<Image> images, List<String> hrefs) {
+            this.Images = images;
+            this.Hrefs = hrefs;
+        }
+
+        /**
+         * 画像リスト
+         */
+        public List<Image> Images;
+
+        /**
+         * 次に読み込むリンク先URLリスト
+         */
+        public List<String> Hrefs;
     }
 }

@@ -34,10 +34,17 @@ public class ApplicationTests {
         this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
     }
 
+    /**
+     * レスポンスに抽出対象の画像とリンク先が含まれていることをテストします。
+     * @throws Exception
+     */
     @Test
-    public void testHome() throws Exception {
+    public void レスポンスに抽出対象の画像とリンク先が含まれている() throws Exception {
 
         this.mvc.perform(get("/api/v1/url/images/?target=http%3a%2f%2fwww%2e28lab%2ecom%2f")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("http://www.28lab.com/Content/Image/fujitv.png")));
+                .andExpect(content().string(containsString("http://www.28lab.com/Content/Image/fujitv.png")))
+                .andExpect(content().string(containsString("http://www.28lab.com/video.html")))
+                .andExpect(content().string(containsString("https://www.facebook.com/28lab")));
+
     }
 }

@@ -1,6 +1,7 @@
 package nightwalker.api.services.formats.html;
 
 import nightwalker.api.services.formats.IFormattable;
+import nightwalker.api.services.helper.UrlHelper;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -41,8 +42,7 @@ public final class AbsolutePathFormatter implements IFormattable {
         String formattedUrl = org;
 
         // URLがファイルかディレクトリかを判定する
-        String lastPath = org.split("/")[org.split("/").length - 1];
-        boolean isFilePath = lastPath.contains(".") && !(lastPath.equals(new URI(org).getHost()));
+        boolean isFilePath = UrlHelper.isFilePath(formattedUrl);
 
         // ファイルなら整形不要
         if(isFilePath){
