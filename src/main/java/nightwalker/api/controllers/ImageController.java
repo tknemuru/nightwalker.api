@@ -5,7 +5,9 @@ import nightwalker.api.models.resources.html.PageResource;
 import nightwalker.api.services.extracts.ExtractedList;
 import nightwalker.api.services.extracts.html.FilenameExtensionExtractor;
 import nightwalker.api.services.extracts.html.CssSelectorAttrValueExtractor;
+import nightwalker.api.services.extracts.html.ResponseHeaderExtractor;
 import nightwalker.api.services.formats.html.AbsolutePathFormatter;
+import org.jsoup.helper.StringUtil;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +21,7 @@ import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -37,22 +40,27 @@ public class ImageController {
                 URLDecoder.decode(targetUrl, StandardCharsets.UTF_8.name()));
 
         // 画像の抽出を実行
+        Predicate<String> greaterThanCompareValue = (headerValue) -> Integer.parseInt(headerValue) >= 20000;
         ExtractedList imageUrls = new CssSelectorAttrValueExtractor("img", "src")
                 .extract(resource.getHtml())
                 .concat(new CssSelectorAttrValueExtractor("a", "href")
                         .extract(resource.getHtml()))
                 .extract(new FilenameExtensionExtractor("jpg", "png"))
-                .format(new AbsolutePathFormatter(resource.getUrl().toString()));
+                .format(new AbsolutePathFormatter(resource.getUrl().toString()))
+                .extract(new ResponseHeaderExtractor("Content-Length", greaterThanCompareValue));
 
         // 画像インスタンスに変換
-        List<Image> images = imageUrls.stream()
+        List<Image> images = imageUrls.parallelStream()
                 .map(url -> {
                     try {
+                        System.out.println("Image Read Success -> " + url);
                         return new Image(url);
                     } catch (IOException ex) {
-                        throw new UncheckedIOException(ex);
+                        System.out.println("***Image Read Failed -> " + url);
+                        return null;
                     }
                 })
+                .filter(image -> image != null)
                 .collect(Collectors.toList());
 
         // 次に読み込むリンク先の抽出を実行

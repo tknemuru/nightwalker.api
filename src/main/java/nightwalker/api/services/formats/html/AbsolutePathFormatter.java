@@ -30,7 +30,13 @@ public final class AbsolutePathFormatter implements IFormattable {
      * @return 絶対パスのURL
      */
     public String format(String org) {
-        return this.BaseUri.resolve(org).toString();
+        try{
+            return this.BaseUri.resolve(org).toString();
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
     }
 
     /**

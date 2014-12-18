@@ -20,7 +20,7 @@ public abstract class ResourceExtractor {
      * @return 条件に合致する情報
      */
     public final ExtractedList extract(ExtractedList resource) {
-        Stream<String> s = resource.stream()
+        Stream<String> s = resource.parallelStream()
                 .filter(r -> !this._extract(r).isEmpty())
                 .map(r -> this._extract(r));
         return new ExtractedList(s);

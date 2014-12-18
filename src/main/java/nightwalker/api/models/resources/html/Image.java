@@ -32,12 +32,12 @@ public class Image {
 
     /**
      * コンストラクタ
-     * @param Url 画像URL
+     * @param url 画像URL
      * @throws IOException
      */
-    public Image(String Url) throws IOException {
-        BufferedImage image = ImageIO.read(new URL(Url));
-        this.Url = Url;
+    public Image(String url) throws IOException {
+        BufferedImage image = ImageIO.read(new URL(url));
+        this.Url = url;
         this.Width = image.getWidth();
         this.Height = image.getHeight();
     }

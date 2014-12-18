@@ -43,7 +43,7 @@ public final class ExtractedList extends ArrayList<String> {
      * @return 結合されたリスト
      */
     public final ExtractedList concat(ExtractedList list) {
-        return new ExtractedList(Stream.concat(this.stream(), list.stream()));
+        return new ExtractedList(Stream.concat(this.parallelStream(), list.parallelStream()));
     }
 
     /**
@@ -52,7 +52,7 @@ public final class ExtractedList extends ArrayList<String> {
      * @return
      */
     public final ExtractedList format(IFormattable formatter) {
-        return new ExtractedList(this.stream()
+        return new ExtractedList(this.parallelStream()
                 .map(value -> formatter.format(value)));
     }
 }
