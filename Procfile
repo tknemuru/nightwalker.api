@@ -1,1 +1,0 @@
-web: java -jar build/libs/night-walker-api.jar --server.port=$PORT
