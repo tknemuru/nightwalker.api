@@ -35,45 +35,52 @@ public class ImageController {
     public ImageControllerResponse index(HttpServletResponse response
             , @RequestParam("target") String targetUrl) throws URISyntaxException, java.io.IOException
     {
-        // スクレイピング対象のページを読み込む
-        PageResource resource = new PageResource(
-                URLDecoder.decode(targetUrl, StandardCharsets.UTF_8.name()));
+        ImageControllerResponse myResponse;
+        try{
+            // スクレイピング対象のページを読み込む
+            PageResource resource = new PageResource(
+                    URLDecoder.decode(targetUrl, StandardCharsets.UTF_8.name()));
 
-        // 画像の抽出を実行
-        Predicate<String> greaterThanCompareValue = (headerValue) -> Integer.parseInt(headerValue) >= 20000;
-        ExtractedList imageUrls = new CssSelectorAttrValueExtractor("img", "src")
-                .extract(resource.getHtml())
-                .concat(new CssSelectorAttrValueExtractor("a", "href")
-                        .extract(resource.getHtml()))
-                .extract(new FilenameExtensionExtractor("jpg", "png"))
-                .format(new AbsolutePathFormatter(resource.getUrl().toString()))
-                .extract(new ResponseHeaderExtractor("Content-Length", greaterThanCompareValue));
+            // 画像の抽出を実行
+            Predicate<String> greaterThanCompareValue = (headerValue) -> Integer.parseInt(headerValue) >= 20000;
+            ExtractedList imageUrls = new CssSelectorAttrValueExtractor("img", "src")
+                    .extract(resource.getHtml())
+                    .concat(new CssSelectorAttrValueExtractor("a", "href")
+                            .extract(resource.getHtml()))
+                    .extract(new FilenameExtensionExtractor("jpg", "png"))
+                    .format(new AbsolutePathFormatter(resource.getUrl().toString()))
+                    .extract(new ResponseHeaderExtractor("Content-Length", greaterThanCompareValue));
 
-        // 画像インスタンスに変換
-        List<Image> images = imageUrls.parallelStream()
-                .map(url -> {
-                    try {
-                        System.out.println("Image Read Success -> " + url);
-                        return new Image(url);
-                    } catch (IOException ex) {
-                        System.out.println("***Image Read Failed -> " + url);
-                        return null;
-                    }
-                })
-                .filter(image -> image != null)
-                .collect(Collectors.toList());
+            // 画像インスタンスに変換
+            List<Image> images = imageUrls.parallelStream()
+                    .map(url -> {
+                        try {
+                            System.out.println("Image Read Success -> " + url);
+                            return new Image(url);
+                        } catch (IOException ex) {
+                            System.out.println("***Image Read Failed -> " + url);
+                            return null;
+                        }
+                    })
+                    .filter(image -> image != null)
+                    .collect(Collectors.toList());
 
-        // 次に読み込むリンク先の抽出を実行
-        ExtractedList hrefs = new CssSelectorAttrValueExtractor("a", "href")
-                .extract(resource.getHtml())
-                .extract(new FilenameExtensionExtractor())
-                .concat(new CssSelectorAttrValueExtractor("a", "href")
-                        .extract(resource.getHtml())
-                        .extract(new FilenameExtensionExtractor("html")))
-                .format(new AbsolutePathFormatter(resource.getUrl().toString()));
+            // 次に読み込むリンク先の抽出を実行
+            ExtractedList hrefs = new CssSelectorAttrValueExtractor("a", "href")
+                    .extract(resource.getHtml())
+                    .extract(new FilenameExtensionExtractor())
+                    .concat(new CssSelectorAttrValueExtractor("a", "href")
+                            .extract(resource.getHtml())
+                            .extract(new FilenameExtensionExtractor("html")))
+                    .format(new AbsolutePathFormatter(resource.getUrl().toString()));
 
-        // 画像リストとリンク先リストをレスポンスに埋め込む
-        ImageControllerResponse myResponse = new ImageControllerResponse(images, hrefs);
+            // 画像リストとリンク先リストをレスポンスに埋め込む
+            myResponse = new ImageControllerResponse(images, hrefs, null);
+        }
+        catch (Exception ex) {
+            myResponse = new ImageControllerResponse(null, null, "");
+            response.setStatus(500);
+        }
 
         // レスポンスヘッダにAllow-Originを付与
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -90,19 +97,25 @@ public class ImageController {
          * @param images 画像リスト
          * @param hrefs リンク先URLリスト
          */
-        public ImageControllerResponse(List<Image> images, List<String> hrefs) {
-            this.Images = images;
-            this.Hrefs = hrefs;
+        public ImageControllerResponse(List<Image> images, List<String> hrefs, String errorMessage) {
+            this.Resources = images;
+            this.StorageAddresses = hrefs;
+            this.ErrorMessage = errorMessage;
         }
 
         /**
          * 画像リスト
          */
-        public List<Image> Images;
+        public List<Image> Resources;
 
         /**
          * 次に読み込むリンク先URLリスト
          */
-        public List<String> Hrefs;
+        public List<String> StorageAddresses;
+
+        /**
+         * エラーメッセージ
+         */
+        public String ErrorMessage;
     }
 }
