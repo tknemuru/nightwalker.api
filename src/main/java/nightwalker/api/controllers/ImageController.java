@@ -96,6 +96,7 @@ public class ImageController {
          * コンストラクタ
          * @param images 画像リスト
          * @param hrefs リンク先URLリスト
+         * @param errorMessage エラーメッセージ
          */
         public ImageControllerResponse(List<Image> images, List<String> hrefs, String errorMessage) {
             this.Resources = images;
