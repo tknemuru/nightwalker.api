@@ -1,14 +1,13 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resource>
     <type>fc2</type>
     <container>
         <page url="http://www.zulinetta.com/">
-            <element selector=".entry" />
+            <elements selector=".entry">
+                <filter selector=".info .category a" attr="text" equals="FC2動画" />
+            </elements>
         </page>
     </container>
-    <filter>
-        <value selector=".info .category a" attr="text" equals="FC2動画" />
-    </filter>
     <image>
         <value selector=".textBody .imgwrap a img" attr="src" />
     </image>

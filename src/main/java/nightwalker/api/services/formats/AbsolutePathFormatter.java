@@ -1,4 +1,4 @@
-package nightwalker.api.services.formats.html;
+package nightwalker.api.services.formats;
 
 import nightwalker.api.services.formats.IFormattable;
 import nightwalker.api.helper.UrlHelper;

@@ -1,12 +1,12 @@
 package nightwalker.api.controllers;
 
-import nightwalker.api.models.resources.html.Image;
-import nightwalker.api.models.resources.html.PageResource;
+import nightwalker.api.models.resources.Image;
+import nightwalker.api.models.resources.PageResource;
 import nightwalker.api.services.extracts.html.ExtractedList;
 import nightwalker.api.services.extracts.html.FilenameExtensionExtractor;
 import nightwalker.api.services.extracts.html.CssSelectorAttrValueExtractor;
 import nightwalker.api.services.extracts.html.ResponseHeaderExtractor;
-import nightwalker.api.services.formats.html.AbsolutePathFormatter;
+import nightwalker.api.services.formats.AbsolutePathFormatter;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

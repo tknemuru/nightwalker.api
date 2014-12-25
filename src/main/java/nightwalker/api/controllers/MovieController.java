@@ -1,11 +1,12 @@
 package nightwalker.api.controllers;
 
-import nightwalker.api.services.extracts.movies.resources.extractors.MovieExtractor;
+import nightwalker.api.services.extracts.movies.MovieExtractor;
+import nightwalker.api.models.resources.Movie;
+import nightwalker.api.services.extracts.movies.MovieExtractorProvider;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.w3c.dom.Element;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,12 +20,12 @@ import java.net.URISyntaxException;
 public class MovieController {
     @RequestMapping(method = RequestMethod.GET
             , produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Element index(HttpServletResponse response) throws URISyntaxException, IOException
+    public Movie index(HttpServletResponse response) throws URISyntaxException, IOException
     {
         try{
-            MovieExtractor extractor = new MovieExtractor();
-            Element el = extractor.extract();
-            return el;
+            MovieExtractor extractor = MovieExtractorProvider.getJapaneseXvideosExtractor();
+            Movie movie = extractor.extract();
+            return movie;
         }
         catch (Exception ex) {
             response.setStatus(500);

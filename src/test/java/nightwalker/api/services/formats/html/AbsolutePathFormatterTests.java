@@ -1,5 +1,6 @@
 package nightwalker.api.services.formats.html;
 
+import nightwalker.api.services.formats.AbsolutePathFormatter;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

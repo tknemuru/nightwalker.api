@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resource>
-    <type>xvideos</type>
+    <type>XVideos</type>
     <container>
         <page url="http://j-xvideos.com/pc/">
-            <element selector=".thumbnail" />
+            <elements selector=".thumbnail" />
         </page>
     </container>
     <image>

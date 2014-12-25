@@ -1,4 +1,4 @@
-package nightwalker.api.models.resources.html;
+package nightwalker.api.models.resources;
 
 import lombok.Getter;
 

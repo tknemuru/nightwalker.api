@@ -1,4 +1,4 @@
-package nightwalker.api.models.resources.html;
+package nightwalker.api.models.resources;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -37,6 +37,18 @@ public final class PageResource {
         this.Html = null;
     }
 
+    /**
+     * コンストラクタ*
+     * @param url URL
+     * @param html HTML
+     * @throws MalformedURLException
+     * 主にテストのために使用します。*
+     */
+    public PageResource(String url, String html) throws MalformedURLException {
+        this.Url = new URL(url);
+        this.Html = StringUtil.isBlank(html) ? null : html;
+    }
+    
     /**
      * HTMLページを取得します。
      * @return HTMLページ
