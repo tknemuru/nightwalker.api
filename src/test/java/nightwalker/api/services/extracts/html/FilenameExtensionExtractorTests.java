@@ -1,6 +1,5 @@
 package nightwalker.api.services.extracts.html;
 
-import nightwalker.api.services.extracts.ExtractedList;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

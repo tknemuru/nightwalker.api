@@ -1,7 +1,5 @@
 package nightwalker.api.services.extracts.html;
 
-import nightwalker.api.services.extracts.ExtractedList;
-import nightwalker.api.services.extracts.ResourceExtractor;
 import nightwalker.api.helper.UrlHelper;
 
 import java.util.Arrays;

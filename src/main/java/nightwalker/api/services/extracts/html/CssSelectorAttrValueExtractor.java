@@ -1,7 +1,5 @@
 package nightwalker.api.services.extracts.html;
 
-import nightwalker.api.services.extracts.ExtractedList;
-import nightwalker.api.services.extracts.ResourceExtractor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 

@@ -47,4 +47,9 @@ public class ApplicationTests {
                 .andExpect(content().string(containsString("https://www.facebook.com/28lab")));
 
     }
+
+    @Test
+    public void 動画テスト() throws Exception {
+        this.mvc.perform(get("/api/v1/movies/")).andExpect(status().isOk());
+    }
 }

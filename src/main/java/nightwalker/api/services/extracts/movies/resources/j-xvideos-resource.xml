@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<resource>
+    <type>xvideos</type>
+    <container>
+        <page url="http://j-xvideos.com/pc/">
+            <element selector=".thumbnail" />
+        </page>
+    </container>
+    <image>
+        <value selector="a img" attr="src" />
+    </image>
+    <video>
+        <page selector="a" attr="href">
+            <value selector="embed" attr="src" />
+        </page>
+    </video>
+    <desc>
+        <value selector=".title a" attr="text" />
+    </desc>
+    <duration>
+        <value selector=".duration .text" attr="text" />
+    </duration>
+    <tags>
+        <value selector="tags" attr="text" separator=" " />
+    </tags>
+    <nextpage>
+        <value selector=".pagination ul li a" attr="href" />
+    </nextpage>
+</resource>

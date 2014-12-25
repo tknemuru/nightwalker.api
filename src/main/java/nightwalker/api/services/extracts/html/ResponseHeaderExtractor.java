@@ -1,8 +1,5 @@
 package nightwalker.api.services.extracts.html;
 
-import nightwalker.api.services.extracts.ExtractedList;
-import nightwalker.api.services.extracts.ResourceExtractor;
-
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.function.Predicate;

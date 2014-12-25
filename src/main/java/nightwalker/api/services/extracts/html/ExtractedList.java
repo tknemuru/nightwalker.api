@@ -1,4 +1,4 @@
-package nightwalker.api.services.extracts;
+package nightwalker.api.services.extracts.html;
 
 import nightwalker.api.services.formats.IFormattable;
 

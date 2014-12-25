@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<resource>
+    <type>fc2</type>
+    <container>
+        <page url="http://www.zulinetta.com/">
+            <element selector=".entry" />
+        </page>
+    </container>
+    <filter>
+        <value selector=".info .category a" attr="text" equals="FC2動画" />
+    </filter>
+    <image>
+        <value selector=".textBody .imgwrap a img" attr="src" />
+    </image>
+    <video>
+        <page selector=".textBody .imgwrap a" attr="href">
+            <value selector="embed" attr="src" />
+            <value selector="embed" attr="flashvars" />
+        </page>
+    </video>
+    <desc>
+        <value selector="h1 a" attr="text" />
+    </desc>
+    <duration>
+    </duration>
+    <tags>
+        <value selector="tags a" attr="text" multi="true" />
+    </tags>
+    <nextpage>
+        <value selector=".page_navi a" attr="href" />
+    </nextpage>
+</resource>
