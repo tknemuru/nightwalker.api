@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * HTML要素のフィルタ機能を提供します。*
  * Created by takashi on 2014/12/25.
  */
-public final class FilterProvider {
+public final class FilterParser {
     /**
      * フィルタを実行します。*
      * @param planElement 抽出計画の要素
@@ -19,18 +19,18 @@ public final class FilterProvider {
      */
     public static final Elements filter(Element planElement, Elements htmlElements) {
         // filterノードのみ許可
-        XmlElementValidator.nodeNameValidationThrowsException(planElement, "filter");
+        PlanValidator.nodeNameValidationThrowsException(planElement, "filter");
 
         // attrが必須、equals/notequalsのいずれかが必須
-        XmlElementValidator.requiredAttrKeysValidationThrowsException(planElement, "attr");
-        boolean hasEquals = XmlElementValidator.requiredAttrKeysValidation(planElement, "equals");
-        boolean hasNotEquals = XmlElementValidator.requiredAttrKeysValidation(planElement, "notequals");
+        PlanValidator.requiredAttrKeysValidationThrowsException(planElement, "attr");
+        boolean hasEquals = PlanValidator.requiredAttrKeysValidation(planElement, "equals");
+        boolean hasNotEquals = PlanValidator.requiredAttrKeysValidation(planElement, "notequals");
         if((!hasEquals) && (!hasNotEquals)) {
             throw new IllegalArgumentException("equals/notequals のいずれかが必須です。 -> " + planElement.getAttributes());
         }
 
         // selectorがオプション
-        XmlElementValidator.nodeNameValidation(planElement, "attr", "equals", "notequals", "selector");
+        PlanValidator.nodeNameValidation(planElement, "attr", "equals", "notequals", "selector");
         
         // アトリビュート値を取得
         String selector = planElement.getAttribute("selector");

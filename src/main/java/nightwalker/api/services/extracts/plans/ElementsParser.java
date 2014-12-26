@@ -11,7 +11,7 @@ import java.io.IOException;
  * Elementsを提供します。*
  * Created by takashi on 2014/12/25.
  */
-public final class ElementsProvider {
+public final class ElementsParser {
     /**
      * Elementsを取得します。*
      * @param planElement 抽出計画の要素
@@ -20,13 +20,13 @@ public final class ElementsProvider {
      */
     public static Elements get(Element planElement, PageResource page) throws IOException {
         // elementsノードのみ対応
-        XmlElementValidator.nodeNameValidationThrowsException(planElement, "elements");
+        PlanValidator.nodeNameValidationThrowsException(planElement, "elements");
 
         // selectorが必須
-        XmlElementValidator.requiredAttrKeysValidationThrowsException(planElement, "selector");
+        PlanValidator.requiredAttrKeysValidationThrowsException(planElement, "selector");
 
         // 子ノードはfilterをオプションで許可
-        XmlElementValidator.childNodesNameValidation(planElement, "filter");
+        PlanValidator.childNodesNameValidationThrowsException(planElement, "filter");
 
         // セレクタを取得
         String selector = planElement.getAttribute("selector");
@@ -38,8 +38,8 @@ public final class ElementsProvider {
         Elements elements = doc.select(selector);
 
         // filterが指定されている場合はfilterした要素を返す
-        if(XmlElementValidator.requiredChildNodesValidation(planElement, "filter")){
-            return FilterProvider.filter((Element) planElement.getElementsByTagName("filter").item(0), elements);
+        if(PlanValidator.requiredChildNodesValidation(planElement, "filter")){
+            return FilterParser.filter((Element) planElement.getElementsByTagName("filter").item(0), elements);
         }
         else {
             return elements;

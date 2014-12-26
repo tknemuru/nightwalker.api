@@ -9,7 +9,7 @@ import java.io.IOException;
  * ページを提供します。*
  * Created by takashi on 2014/12/25.
  */
-public class PageProvider {
+public class PageParser {
     /**
      * Elementsを取得します。*
      * @param planElement 抽出計画の要素
@@ -17,17 +17,17 @@ public class PageProvider {
      */
     public static final PageResource get(Element planElement) throws IOException {
         // pageノードのみ対応
-        XmlElementValidator.nodeNameValidationThrowsException(planElement, "page");
+        PlanValidator.nodeNameValidationThrowsException(planElement, "page");
 
         // url、htmlを許可
-        XmlElementValidator.attrKeyValidationThrowsException(planElement, "url", "html");
+        PlanValidator.attrKeyValidationThrowsException(planElement, "url", "html");
 
         // urlが必須
-        XmlElementValidator.requiredAttrKeysValidationThrowsException(planElement, "url");
+        PlanValidator.requiredAttrKeysValidationThrowsException(planElement, "url");
 
         // 子ノードはelementsのみ許可
-        XmlElementValidator.requiredChildNodesValidationThrowsException(planElement, "elements");
-        XmlElementValidator.childNodesNameValidationThrowsException(planElement, "elements");
+        PlanValidator.requiredChildNodesValidationThrowsException(planElement, "elements");
+        PlanValidator.childNodesNameValidationThrowsException(planElement, "elements");
 
         // ページを生成
         return new PageResource(planElement.getAttribute("url"), planElement.getAttribute("html"));

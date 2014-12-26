@@ -1,6 +1,6 @@
 package nightwalker.api.services.extracts.movies;
 
-import nightwalker.api.services.parses.xml.XmlParseProvider;
+import nightwalker.api.services.parses.xml.XmlParser;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
@@ -20,7 +20,7 @@ public final class MovieExtractorProvider {
      * @throws ParserConfigurationException
      */
     public static final MovieExtractor getJapaneseXvideosExtractor() throws SAXException, IOException, ParserConfigurationException {
-        Element plan = XmlParseProvider.parseFromFile("./src/main/java/nightwalker/api/services/extracts/plans/xml/j-xvideos-resource.xml");
+        Element plan = XmlParser.parseFromFile("./src/main/java/nightwalker/api/services/extracts/plans/xml/j-xvideos-resource.xml");
         return new MovieExtractor(plan);
     }
 }

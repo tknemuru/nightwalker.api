@@ -1,8 +1,7 @@
 package nightwalker.api.services.extracts.movies;
 
-import nightwalker.api.models.resources.MovieType;
 import nightwalker.api.models.resources.PageResource;
-import nightwalker.api.services.parses.xml.XmlParseProvider;
+import nightwalker.api.services.parses.xml.XmlParser;
 import org.junit.Before;
 import org.junit.Test;
 import org.w3c.dom.Element;
@@ -10,8 +9,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 public class MovieExtractorTest {
     /**
@@ -50,7 +47,7 @@ public class MovieExtractorTest {
         planStr.append("<element selector=\".entry\">");
         planStr.append("    <filter selector=\".info .category a\" attr=\"text\" equals=\"FC2動画\" />");
         planStr.append("</element>");
-        Element plan = XmlParseProvider.parseFromString(planStr.toString());
+        Element plan = XmlParser.parseFromString(planStr.toString());
         
         this.Extractor = new MovieExtractor(plan);
 //        this.Movie = this.Extractor.extract();

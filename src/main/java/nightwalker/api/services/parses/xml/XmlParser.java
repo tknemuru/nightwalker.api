@@ -15,7 +15,7 @@ import java.io.StringReader;
  * XMLへのパース機能を提供します。*
  * Created by takashi on 2014/12/25.
  */
-public final class XmlParseProvider {
+public final class XmlParser {
     /**
      * XMLファイルからパースします。*
      * @param filePath XMLファイルパス

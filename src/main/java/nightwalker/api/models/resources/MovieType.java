@@ -5,7 +5,7 @@ package nightwalker.api.models.resources;
  */
 public enum MovieType {
     /**
-     * X-Video
+     * X-Videos
      */
     XVideos;
 }
