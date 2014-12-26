@@ -6,7 +6,7 @@ import org.w3c.dom.Element;
 import java.io.IOException;
 
 /**
- * ページを提供します。*
+ * ページ要素の解析機能を提供します。*
  * Created by takashi on 2014/12/25.
  */
 public class PageParser {
@@ -15,7 +15,7 @@ public class PageParser {
      * @param planElement 抽出計画の要素
      * @return Elements
      */
-    public static final PageResource get(Element planElement) throws IOException {
+    public static final PageResource parse(Element planElement) throws IOException {
         // pageノードのみ対応
         PlanValidator.nodeNameValidationThrowsException(planElement, "page");
 

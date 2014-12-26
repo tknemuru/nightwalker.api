@@ -8,21 +8,22 @@ import org.w3c.dom.Element;
 import java.io.IOException;
 
 /**
- * Elementsを提供します。*
+ * Elementsの解析機能を提供します。*
  * Created by takashi on 2014/12/25.
  */
 public final class ElementsParser {
     /**
-     * Elementsを取得します。*
+     * Elementsを解析します。*
      * @param planElement 抽出計画の要素
      * @param page ページ
      * @return Elements
      */
-    public static Elements get(Element planElement, PageResource page) throws IOException {
+    public static Elements parse(Element planElement, PageResource page) throws IOException {
         // elementsノードのみ対応
         PlanValidator.nodeNameValidationThrowsException(planElement, "elements");
 
         // selectorが必須
+        PlanValidator.attrKeyValidationThrowsException(planElement, "selector");
         PlanValidator.requiredAttrKeysValidationThrowsException(planElement, "selector");
 
         // 子ノードはfilterをオプションで許可

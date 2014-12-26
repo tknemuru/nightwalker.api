@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * HTML要素のフィルタ機能を提供します。*
+ * 抽出計画のフィルタ要素を解析し、HTML要素のフィルタ機能を提供します。*
  * Created by takashi on 2014/12/25.
  */
 public final class FilterParser {

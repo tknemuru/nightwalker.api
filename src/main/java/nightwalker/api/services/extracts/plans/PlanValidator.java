@@ -20,7 +20,10 @@ public final class PlanValidator {
     public static final boolean requiredChildNodesValidation(Element planElement, String... requiredChildNodesNames) {
         List<String> childNodesNameList = new ArrayList<>();
         for(int i = 0; i < planElement.getChildNodes().getLength(); i++) {
-            childNodesNameList.add(planElement.getChildNodes().item(i).getNodeName());
+            String nodeName = planElement.getChildNodes().item(i).getNodeName();
+            if(!nodeName.equals("#text")){
+                childNodesNameList.add(nodeName);
+            }
         }
         List<String> requiredNodeNameList = Arrays.asList(requiredChildNodesNames);
         return requiredNodeNameList.stream()
@@ -48,7 +51,10 @@ public final class PlanValidator {
     public static final boolean childNodesNameValidation(Element planElement, String... validNames) {
         List<String> childNodesNameList = new ArrayList<>();
         for(int i = 0; i < planElement.getChildNodes().getLength(); i++) {
-            childNodesNameList.add(planElement.getChildNodes().item(i).getNodeName());
+            String nodeName = planElement.getChildNodes().item(i).getNodeName();
+            if(!nodeName.equals("#text")){
+                childNodesNameList.add(nodeName);
+            }
         }
         List<String> validNameList = Arrays.asList(validNames);
         return childNodesNameList.stream()
@@ -98,7 +104,7 @@ public final class PlanValidator {
     public static final boolean attrKeyValidation(Element planElement, String... validKeys) {
         List<String> validKeyList = Arrays.asList(validKeys);
         for(int i = 0; i < planElement.getAttributes().getLength(); i++) {
-            if(!validKeyList.contains(planElement.getAttributes().item(i))) {
+            if(!validKeyList.contains(planElement.getAttributes().item(i).getNodeName())) {
                 return false;
             }
         }

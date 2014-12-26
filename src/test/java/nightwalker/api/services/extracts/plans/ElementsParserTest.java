@@ -73,7 +73,7 @@ public class ElementsParserTest {
 
     @Test
     public void filter有りで指定通りのHTML要素が取得できる() throws Exception {
-        Elements containers = ElementsParser.get(this.Plan, this.Page);
+        Elements containers = ElementsParser.parse(this.Plan, this.Page);
         assertEquals(containers.size(), 2);
 
         containers.forEach(el ->
@@ -87,7 +87,7 @@ public class ElementsParserTest {
         planStr.append("<elements selector=\".entry\" />");
         Element plan = XmlParser.parseFromString(planStr.toString());
         
-        Elements containers = ElementsParser.get(plan, this.Page);
+        Elements containers = ElementsParser.parse(plan, this.Page);
         assertEquals(containers.size(), 3);
         
         containers.forEach(el ->
@@ -101,7 +101,7 @@ public class ElementsParserTest {
         planStr.append("<elements selector=\".entry .info li\" />");
         Element plan = XmlParser.parseFromString(planStr.toString());
 
-        Elements containers = ElementsParser.get(plan, this.Page);
+        Elements containers = ElementsParser.parse(plan, this.Page);
         assertEquals(containers.size(), 3);
 
         containers.forEach(el ->
@@ -121,7 +121,7 @@ public class ElementsParserTest {
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Node名が不正です。 -> " + plan.getNodeName());
-        ElementsParser.get(plan, this.Page);
+        ElementsParser.parse(plan, this.Page);
     }
 
     @Test
@@ -134,6 +134,33 @@ public class ElementsParserTest {
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("必須のアトリビュートキーが存在しません。 -> " + plan.getAttributes());
-        ElementsParser.get(plan, this.Page);
+        ElementsParser.parse(plan, this.Page);
+    }
+
+    @Test
+    public void selector以外のアトリビュートは禁止() throws Exception {
+        StringBuilder planStr = new StringBuilder();
+        planStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        planStr.append("<elements selector=\".hoge\" attr=\"href\" />");
+        Element plan = XmlParser.parseFromString(planStr.toString());
+
+
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("アトリビュートキーが不正です。 -> " + plan.getAttributes());
+        ElementsParser.parse(plan, this.Page);
+    }
+
+    @Test
+    public void 子ノードにfilter以外の要素があったらNG() throws Exception {
+        StringBuilder planStr = new StringBuilder();
+        planStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        planStr.append("<elements selector=\".hoge\" attr=\"href\" />");
+        Element plan = XmlParser.parseFromString(planStr.toString());
+
+        
+
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("アトリビュートキーが不正です。 -> " + plan.getAttributes());
+        ElementsParser.parse(plan, this.Page);
     }
 }
