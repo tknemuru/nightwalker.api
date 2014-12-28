@@ -7,23 +7,23 @@
         </page>
     </container>
     <image>
-        <value selector="a img" attr="src" />
+        <values selector="a img" attr="src" />
     </image>
     <video>
-        <page selector="a" attr="href">
-            <value selector="embed" attr="src" />
+        <page selector=".caption .title a" attr="href">
+            <values selector="embed" attr="src" />
         </page>
     </video>
     <desc>
-        <value selector=".title a" attr="text" />
+        <values selector=".title a" attr="text" />
     </desc>
-    <duration>
-        <value selector=".duration .text" attr="text" />
-    </duration>
+    <time>
+        <values selector=".duration .text" attr="text" />
+    </time>
     <tags>
-        <value selector="tags" attr="text" separator=" " />
+        <values selector="tags" attr="text" />
     </tags>
     <nextpage>
-        <value selector=".pagination ul li a" attr="href" />
+        <values selector=".pagination ul li a" attr="href" />
     </nextpage>
 </resource>

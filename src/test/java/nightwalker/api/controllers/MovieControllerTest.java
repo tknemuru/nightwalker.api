@@ -1,5 +1,6 @@
-package nightwalker.api;
+package nightwalker.api.controllers;
 
+import nightwalker.api.Application;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @ActiveProfiles("scratch")
 // Separate profile for web tests to avoid clashing databases
-public class ApplicationTests {
+public class MovieControllerTest {
 
     @Autowired
     private WebApplicationContext context;
@@ -34,17 +35,8 @@ public class ApplicationTests {
         this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
     }
 
-    /**
-     * レスポンスに抽出対象の画像とリンク先が含まれていることをテストします。
-     * @throws Exception
-     */
     @Test
-    public void レスポンスに抽出対象の画像とリンク先が含まれている() throws Exception {
-
-        this.mvc.perform(get("/api/v1/url/images/?target=http%3a%2f%2fwww%2e28lab%2ecom%2f")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("http://www.28lab.com/Content/Image/fujitv.png")))
-                .andExpect(content().string(containsString("http://www.28lab.com/video.html")))
-                .andExpect(content().string(containsString("https://www.facebook.com/28lab")));
-
+    public void JXvideosの情報が正常に取得できる() throws Exception {
+        this.mvc.perform(get("/api/v1/movies/")).andExpect(status().isOk());
     }
 }

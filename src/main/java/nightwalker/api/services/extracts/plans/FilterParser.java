@@ -17,7 +17,7 @@ public final class FilterParser {
      * @param htmlElements HTML要素
      * @return フィルタされたHTML要素
      */
-    public static final Elements filter(Element planElement, Elements htmlElements) {
+    public static final Elements filter(final Element planElement, final Elements htmlElements) {
         // filterノードのみ許可
         PlanValidator.nodeNameValidationThrowsException(planElement, "filter");
 

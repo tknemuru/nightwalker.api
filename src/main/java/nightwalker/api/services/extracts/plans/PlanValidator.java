@@ -1,5 +1,6 @@
 package nightwalker.api.services.extracts.plans;
 
+import nightwalker.api.services.parses.xml.XmlParser;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
@@ -17,13 +18,12 @@ public final class PlanValidator {
      * @param requiredChildNodesNames 必須の子ノード
      * @return 必須の子ノードを全て保持しているかどうか
      */
-    public static final boolean requiredChildNodesValidation(Element planElement, String... requiredChildNodesNames) {
+    public static final boolean requiredChildNodesValidation(final Element planElement, final String... requiredChildNodesNames) {
         List<String> childNodesNameList = new ArrayList<>();
-        for(int i = 0; i < planElement.getChildNodes().getLength(); i++) {
-            String nodeName = planElement.getChildNodes().item(i).getNodeName();
-            if(!nodeName.equals("#text")){
-                childNodesNameList.add(nodeName);
-            }
+        Element el = XmlParser.removeNewLineChildNodes(planElement);
+        for(int i = 0; i < el.getChildNodes().getLength(); i++) {
+            String nodeName = el.getChildNodes().item(i).getNodeName();
+            childNodesNameList.add(nodeName);
         }
         List<String> requiredNodeNameList = Arrays.asList(requiredChildNodesNames);
         return requiredNodeNameList.stream()
@@ -36,7 +36,7 @@ public final class PlanValidator {
      * @param planElement 抽出計画の要素
      * @param requiredChildNodesNames 必須の子ノード
      */
-    public static final void requiredChildNodesValidationThrowsException(Element planElement, String... requiredChildNodesNames) {
+    public static final void requiredChildNodesValidationThrowsException(final Element planElement, final String... requiredChildNodesNames) {
         if(!PlanValidator.requiredChildNodesValidation(planElement, requiredChildNodesNames)){
             throw new IllegalArgumentException("必須の子ノードが存在しません。 -> " + planElement.getChildNodes());
         }
@@ -48,13 +48,12 @@ public final class PlanValidator {
      * @param validNames 妥当な子ノード名
      * @return 子ノード名が全て妥当かどうか
      */
-    public static final boolean childNodesNameValidation(Element planElement, String... validNames) {
+    public static final boolean childNodesNameValidation(final Element planElement, final String... validNames) {
         List<String> childNodesNameList = new ArrayList<>();
-        for(int i = 0; i < planElement.getChildNodes().getLength(); i++) {
-            String nodeName = planElement.getChildNodes().item(i).getNodeName();
-            if(!nodeName.equals("#text")){
-                childNodesNameList.add(nodeName);
-            }
+        Element el = XmlParser.removeNewLineChildNodes(planElement);
+        for(int i = 0; i < el.getChildNodes().getLength(); i++) {
+            String nodeName = el.getChildNodes().item(i).getNodeName();
+            childNodesNameList.add(nodeName);
         }
         List<String> validNameList = Arrays.asList(validNames);
         return childNodesNameList.stream()
@@ -67,7 +66,7 @@ public final class PlanValidator {
      * @param planElement 抽出計画の要素
      * @param validNames 妥当な子ノード名
      */
-    public static final void childNodesNameValidationThrowsException(Element planElement, String... validNames) {
+    public static final void childNodesNameValidationThrowsException(final Element planElement, final String... validNames) {
         if(!PlanValidator.childNodesNameValidation(planElement, validNames)){
             throw new IllegalArgumentException("子ノードのノード名が不正です。 -> " + planElement.getChildNodes());
         }
@@ -79,7 +78,7 @@ public final class PlanValidator {
      * @param validNames 妥当なNode名
      * @return Node名が妥当かどうか
      */
-    public static final boolean nodeNameValidation(Element planElement, String... validNames) {
+    public static final boolean nodeNameValidation(final Element planElement, final String... validNames) {
         return Arrays.asList(validNames).contains(planElement.getNodeName());
     }
 
@@ -89,7 +88,7 @@ public final class PlanValidator {
      * @param planElement 抽出計画の要素
      * @param validNames 妥当なNode名
      */
-    public static final void nodeNameValidationThrowsException(Element planElement, String... validNames) {
+    public static final void nodeNameValidationThrowsException(final Element planElement, final String... validNames) {
         if(!PlanValidator.nodeNameValidation(planElement, validNames)){
             throw new IllegalArgumentException("Node名が不正です。 -> " + planElement.getNodeName());
         }
@@ -101,7 +100,7 @@ public final class PlanValidator {
      * @param validKeys 妥当なアトリビュートキー
      * @return アトリビュートキーが妥当かどうか
      */
-    public static final boolean attrKeyValidation(Element planElement, String... validKeys) {
+    public static final boolean attrKeyValidation(final Element planElement, final String... validKeys) {
         List<String> validKeyList = Arrays.asList(validKeys);
         for(int i = 0; i < planElement.getAttributes().getLength(); i++) {
             if(!validKeyList.contains(planElement.getAttributes().item(i).getNodeName())) {
@@ -118,7 +117,7 @@ public final class PlanValidator {
      * @param planElement 抽出計画の要素
      * @param validKeys 妥当なアトリビュートキー
      */
-    public static final void attrKeyValidationThrowsException(Element planElement, String... validKeys) {
+    public static final void attrKeyValidationThrowsException(final Element planElement, final String... validKeys) {
         if(!PlanValidator.attrKeyValidation(planElement, validKeys)){
             throw new IllegalArgumentException("アトリビュートキーが不正です。 -> " + planElement.getAttributes());
         }
@@ -130,7 +129,7 @@ public final class PlanValidator {
      * @param requiredAttrKeys 必須のアトリビュートキー
      * @return 必須のアトリビュートキーを全て保持しているかどうか
      */
-    public static final boolean requiredAttrKeysValidation(Element planElement, String... requiredAttrKeys) {
+    public static final boolean requiredAttrKeysValidation(final Element planElement, final String... requiredAttrKeys) {
         List<String> attrKeysList = new ArrayList<>();
         for(int i = 0; i < planElement.getAttributes().getLength(); i++) {
             attrKeysList.add(planElement.getAttributes().item(i).getNodeName());
@@ -146,7 +145,7 @@ public final class PlanValidator {
      * @param planElement 抽出計画の要素
      * @param requiredAttrKeys 必須のアトリビュートキー
      */
-    public static final void requiredAttrKeysValidationThrowsException(Element planElement, String... requiredAttrKeys) {
+    public static final void requiredAttrKeysValidationThrowsException(final Element planElement, final String... requiredAttrKeys) {
         if(!PlanValidator.requiredAttrKeysValidation(planElement, requiredAttrKeys)){
             throw new IllegalArgumentException("必須のアトリビュートキーが存在しません。 -> " + planElement.getAttributes());
         }

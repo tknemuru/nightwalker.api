@@ -9,23 +9,23 @@
         </page>
     </container>
     <image>
-        <value selector=".textBody .imgwrap a img" attr="src" />
+        <values selector=".textBody .imgwrap a img" attr="src" />
     </image>
     <video>
         <page selector=".textBody .imgwrap a" attr="href">
-            <value selector="embed" attr="src" />
-            <value selector="embed" attr="flashvars" />
+            <values selector="embed" attr="src" />
+            <values selector="embed" attr="flashvars" />
         </page>
     </video>
     <desc>
-        <value selector="h1 a" attr="text" />
+        <values selector="h1 a" attr="text" />
     </desc>
-    <duration>
-    </duration>
+    <time>
+    </time>
     <tags>
-        <value selector="tags a" attr="text" multi="true" />
+        <values selector=".tags a" attr="text" />
     </tags>
     <nextpage>
-        <value selector=".page_navi a" attr="href" />
+        <values selector=".page_navi a" attr="href" />
     </nextpage>
 </resource>

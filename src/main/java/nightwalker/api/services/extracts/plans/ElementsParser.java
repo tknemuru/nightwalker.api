@@ -18,7 +18,7 @@ public final class ElementsParser {
      * @param page ページ
      * @return Elements
      */
-    public static Elements parse(Element planElement, PageResource page) throws IOException {
+    public static Elements parse(final Element planElement, final PageResource page) throws IOException {
         // elementsノードのみ対応
         PlanValidator.nodeNameValidationThrowsException(planElement, "elements");
 
@@ -33,7 +33,7 @@ public final class ElementsParser {
         String selector = planElement.getAttribute("selector");
 
         // htmlからドキュメントを生成
-        org.jsoup.nodes.Document doc = Jsoup.parse(page.getHtml());
+        org.jsoup.nodes.Document doc = page.getDocument();
 
         // 要素を取得
         Elements elements = doc.select(selector);

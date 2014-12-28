@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * Created by takashi on 2014/12/13.
@@ -20,12 +21,12 @@ import java.net.URISyntaxException;
 public class MovieController {
     @RequestMapping(method = RequestMethod.GET
             , produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Movie index(HttpServletResponse response) throws URISyntaxException, IOException
+    public List<Movie> index(HttpServletResponse response) throws URISyntaxException, IOException
     {
         try{
             MovieExtractor extractor = MovieExtractorProvider.getJapaneseXvideosExtractor();
-            Movie movie = extractor.extract();
-            return movie;
+            List<Movie> movies = extractor.extract();
+            return movies;
         }
         catch (Exception ex) {
             response.setStatus(500);

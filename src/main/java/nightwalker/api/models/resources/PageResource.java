@@ -4,9 +4,11 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import lombok.Getter;
+import org.jsoup.Jsoup;
 import org.jsoup.helper.StringUtil;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -55,6 +57,14 @@ public final class PageResource {
      */
     public String getHtml() throws java.io.IOException {
         return StringUtil.isBlank(this.Html) ? this.getHtmlJavascriptDisabled() : this.Html;
+    }
+
+    /**
+     * HTMLからドキュメントを取得します。*
+     * @return HTMLドキュメント
+     */
+    public org.jsoup.nodes.Document getDocument() throws IOException {
+        return Jsoup.parse(this.getHtml());
     }
 
     /**
