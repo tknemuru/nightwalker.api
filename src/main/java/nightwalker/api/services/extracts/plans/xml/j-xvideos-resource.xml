@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resource>
     <type>XVideos</type>
+    <maxcount>1</maxcount>
+    <page url="http://j-xvideos.com/pc/" />
     <container>
-        <page url="http://j-xvideos.com/pc/">
-            <elements selector=".thumbnail" />
-        </page>
+        <elements selector=".thumbnail" />
     </container>
     <image>
         <values selector="a img" attr="src" />
     </image>
     <video>
-        <page selector=".caption .title a" attr="href">
-            <values selector="embed" attr="src" />
+        <page selector=".caption .title a" attr="href" enabledJavascript="true">
+            <values selector="#videoframe" attr="src" />
         </page>
     </video>
     <desc>
@@ -21,7 +21,7 @@
         <values selector=".duration .text" attr="text" />
     </time>
     <tags>
-        <values selector="tags" attr="text" />
+        <values selector=".tags" attr="text" />
     </tags>
     <nextpage>
         <values selector=".pagination ul li a" attr="href" />

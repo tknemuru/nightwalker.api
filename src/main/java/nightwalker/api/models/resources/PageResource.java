@@ -55,8 +55,26 @@ public final class PageResource {
      * HTMLページを取得します。
      * @return HTMLページ
      */
-    public String getHtml() throws java.io.IOException {
-        return StringUtil.isBlank(this.Html) ? this.getHtmlJavascriptDisabled() : this.Html;
+    public final String getHtml() throws java.io.IOException {
+        return this.getHtml(true);
+    }
+    
+    /**
+     * HTMLページを取得します。*
+     * @param enabledJavascript JavaScriptを有効にするかどうか
+     * @return HTMLページ
+     * @throws java.io.IOException
+     */
+    public final String getHtml(boolean enabledJavascript) throws java.io.IOException {
+        if(StringUtil.isBlank(this.Html)) {
+            if(enabledJavascript) {
+                this.Html = this.getHtmlJavascriptEnabled();
+            }
+            else {
+                this.Html = this.getHtmlJavascriptDisabled();
+            }
+        }
+        return this.Html;
     }
 
     /**

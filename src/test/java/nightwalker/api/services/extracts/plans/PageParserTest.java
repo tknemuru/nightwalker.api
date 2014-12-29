@@ -105,7 +105,7 @@ public class PageParserTest {
 
         org.jsoup.nodes.Element container = this.Page.getDocument().select(".entry").first();
         
-        PageResource innerPage = PageParser.parse(plan, container);
+        PageResource innerPage = PageParser.parse(plan, container, "http://www.28lab.com");
         assertTrue(innerPage.getHtml().contains("28Lab"));
     }
 
@@ -141,7 +141,7 @@ public class PageParserTest {
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Node名が不正です。 -> " + plan.getNodeName());
-        PageParser.parse(plan, container);
+        PageParser.parse(plan, container, "http://www.28lab.com");
     }
 
     @Test
@@ -175,20 +175,6 @@ public class PageParserTest {
     }
 
     @Test
-    public void ElementsOrValueOrPageを子ノードとする() throws Exception {
-        // 抽出計画の作成
-        StringBuilder planStr = new StringBuilder();
-        planStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        planStr.append("<page url=\"http://www.28lab.com/\">");
-        planStr.append("</page>");
-        Element plan = XmlParser.parseFromString(planStr.toString());
-
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("elements、value、pageのいずれかを子ノードとする必要があります。");
-        PageParser.parse(plan);
-    }
-
-    @Test
     public void SelectorOrAttr以外は使用不可() throws Exception {
         // 抽出計画の作成
         StringBuilder planStr = new StringBuilder();
@@ -202,7 +188,7 @@ public class PageParserTest {
         
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("アトリビュートキーが不正です。 -> " + plan.getAttributes());
-        PageParser.parse(plan, container);
+        PageParser.parse(plan, container, "http://www.28lab.com");
     }
 
     @Test
@@ -219,6 +205,6 @@ public class PageParserTest {
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("URLを取得する対象の要素数を1にしてください。");
-        PageParser.parse(plan, container);
+        PageParser.parse(plan, container, "http://www.28lab.com");
     }
 }

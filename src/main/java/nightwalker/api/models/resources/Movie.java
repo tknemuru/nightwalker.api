@@ -51,11 +51,4 @@ public class Movie {
     @Getter
     @Setter
     private List<String> Tags;
-
-    /**
-     * 次に読み込むページ情報*
-     */
-    @Getter
-    @Setter
-    private List<String> NextPage;
 }

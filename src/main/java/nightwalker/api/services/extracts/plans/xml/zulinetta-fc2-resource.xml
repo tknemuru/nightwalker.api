@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resource>
     <type>fc2</type>
+    <maxcount>1</maxcount>
+    <page url="http://www.zulinetta.com/" />
     <container>
-        <page url="http://www.zulinetta.com/">
-            <elements selector=".entry">
-                <filter selector=".info .category a" attr="text" equals="FC2動画" />
-            </elements>
-        </page>
+        <elements selector=".entry">
+            <filter selector=".info .category a" attr="text" equals="FC2動画" />
+        </elements>
     </container>
     <image>
         <values selector=".textBody .imgwrap a img" attr="src" />

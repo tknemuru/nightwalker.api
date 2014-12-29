@@ -46,6 +46,8 @@ public class ValuesParserTest {
         html.append("          </ul>");
         html.append("          <h1>");
         html.append("            <a href=\"http://www.example.com/test.html\">desc test 1</a>");
+        html.append("            <a class=\"formattest\" href=\"test.html\">desc test 1</a>");
+        html.append("            <img class=\"formattest2\" src=\"test.jpg\">desc test 1</img>");
         html.append("          </h1>");
         html.append("        </div>");
         html.append("        <div class=\"block entry\" id=\"entry4631\" style=\"cursor: pointer; background-color: rgb(225, 222, 201);\">");
@@ -89,7 +91,7 @@ public class ValuesParserTest {
         planStr.append("<values selector=\"h1 a\" attr=\"text\" />");
         Element plan = XmlParser.parseFromString(planStr.toString());
         
-        List<String> values = ValuesParser.parse(plan, this.Container);
+        List<String> values = ValuesParser.parse(plan, this.Container, this.Page.getUrl().toString());
         
         assertEquals("desc test 1", values.get(0));
     }
@@ -102,7 +104,7 @@ public class ValuesParserTest {
         planStr.append("<values selector=\"h1 a\" attr=\"href\" />");
         Element plan = XmlParser.parseFromString(planStr.toString());
 
-        List<String> values = ValuesParser.parse(plan, this.Container);
+        List<String> values = ValuesParser.parse(plan, this.Container, this.Page.getUrl().toString());
 
         assertEquals("http://www.example.com/test.html", values.get(0));
     }
@@ -120,11 +122,47 @@ public class ValuesParserTest {
         expected.add("tag2");
         expected.add("tag3");
         
-        List<String> values = ValuesParser.parse(plan, this.Container);
+        List<String> values = ValuesParser.parse(plan, this.Container, this.Page.getUrl().toString());
         
         assertArrayEquals(expected.toArray(), values.toArray());
     }
 
+    @Test
+    public void ページからvaluesが取得できる() throws Exception {
+        // 抽出計画の作成
+        StringBuilder planStr = new StringBuilder();
+        planStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        planStr.append("<values selector=\"a\" attr=\"href\" />");
+        Element plan = XmlParser.parseFromString(planStr.toString());
+
+        List<String> values = ValuesParser.parse(plan, this.Page.getDocument(), this.Page.getUrl().toString());
+
+        assertEquals(7, values.size());
+    }
+
+    @Test
+    public void hrefとsrcの値はURLの正規化が行われる() throws Exception {
+        // 抽出計画の作成
+        StringBuilder planStr = new StringBuilder();
+        planStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        planStr.append("<values selector=\"h1 .formattest\" attr=\"href\" />");
+        Element plan = XmlParser.parseFromString(planStr.toString());
+
+        List<String> values = ValuesParser.parse(plan, this.Container, this.Page.getUrl().toString());
+
+        assertEquals("http://example.com/test.html", values.get(0));
+
+        // 抽出計画の作成
+        planStr = new StringBuilder();
+        planStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        planStr.append("<values selector=\"h1 .formattest2\" attr=\"src\" />");
+        plan = XmlParser.parseFromString(planStr.toString());
+
+        values = ValuesParser.parse(plan, this.Container, this.Page.getUrl().toString());
+
+        assertEquals("http://example.com/test.jpg", values.get(0));
+    }
+    
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -138,7 +176,7 @@ public class ValuesParserTest {
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Node名が不正です。 -> " + plan.getNodeName());
-        ValuesParser.parse(plan, this.Container);
+        ValuesParser.parse(plan, this.Container, this.Page.getUrl().toString());
     }
 
     @Test
@@ -153,7 +191,7 @@ public class ValuesParserTest {
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("子要素を保持してはいけません。");
-        ValuesParser.parse(plan, this.Container);
+        ValuesParser.parse(plan, this.Container, this.Page.getUrl().toString());
     }
 
     @Test
@@ -166,7 +204,7 @@ public class ValuesParserTest {
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("必須のアトリビュートキーが存在しません。 -> " + plan.getAttributes());
-        ValuesParser.parse(plan, this.Container);
+        ValuesParser.parse(plan, this.Container, this.Page.getUrl().toString());
     }
 
     @Test
@@ -179,6 +217,6 @@ public class ValuesParserTest {
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("必須のアトリビュートキーが存在しません。 -> " + plan.getAttributes());
-        ValuesParser.parse(plan, this.Container);
+        ValuesParser.parse(plan, this.Container, this.Page.getUrl().toString());
     }
 }

@@ -1,5 +1,6 @@
 package nightwalker.api.controllers;
 
+import nightwalker.api.models.resources.MovieResponse;
 import nightwalker.api.services.extracts.movies.MovieExtractor;
 import nightwalker.api.models.resources.Movie;
 import nightwalker.api.services.extracts.movies.MovieExtractorProvider;
@@ -21,12 +22,12 @@ import java.util.List;
 public class MovieController {
     @RequestMapping(method = RequestMethod.GET
             , produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<Movie> index(HttpServletResponse response) throws URISyntaxException, IOException
+    public MovieResponse index(HttpServletResponse response) throws URISyntaxException, IOException
     {
         try{
             MovieExtractor extractor = MovieExtractorProvider.getJapaneseXvideosExtractor();
-            List<Movie> movies = extractor.extract();
-            return movies;
+            MovieResponse movieResponse = extractor.extract();
+            return movieResponse;
         }
         catch (Exception ex) {
             response.setStatus(500);

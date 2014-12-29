@@ -1,9 +1,11 @@
 package nightwalker.api.services.extracts.plans;
 
 import nightwalker.api.models.resources.PageResource;
+import nightwalker.api.services.formats.AbsolutePathFormatter;
 import org.w3c.dom.Element;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 /**
  * ページ要素の解析機能を提供します。*
@@ -36,12 +38,12 @@ public class PageParser {
      * @return Elements
      * @throws IOException
      */
-    public static final PageResource parse(final Element planElement, final org.jsoup.nodes.Element container) throws IOException {
+    public static final PageResource parse(final Element planElement, final org.jsoup.nodes.Element container, final String pageUrl) throws IOException, URISyntaxException {
         // 抽出計画の妥当性チェック
         CommonValidation(planElement);
 
-        // selector、attrが必須
-        PlanValidator.attrKeyValidationThrowsException(planElement, "selector", "attr");
+        // selector、attrが必須。enabledJavascriptがオプション
+        PlanValidator.attrKeyValidationThrowsException(planElement, "selector", "attr", "enabledJavascript");
         PlanValidator.requiredAttrKeysValidationThrowsException(planElement, "selector", "attr");
 
         // ページのURLを取得する
@@ -55,6 +57,9 @@ public class PageParser {
         
         String url = container.select(selector).attr(attr);
         
+        // URLを正規化する
+        url = new AbsolutePathFormatter(pageUrl).format(url);
+        
         // ページを生成
         return new PageResource(url);
     }
@@ -67,13 +72,7 @@ public class PageParser {
         // pageノードのみ対応
         PlanValidator.nodeNameValidationThrowsException(planElement, "page");
 
-        // 子ノードはelements、values、pageのいずれかが必須
+        // 子ノードはelements、values、pageを許可
         PlanValidator.childNodesNameValidationThrowsException(planElement, "elements", "values", "page");
-        boolean hasElementsChild = PlanValidator.requiredChildNodesValidation(planElement, "elements");
-        boolean hasValueChild = PlanValidator.requiredChildNodesValidation(planElement, "values");
-        boolean hasPageChild = PlanValidator.requiredChildNodesValidation(planElement, "page");
-        if((!hasElementsChild) && (!hasValueChild) && (!hasPageChild)) {
-            throw new IllegalArgumentException("elements、value、pageのいずれかを子ノードとする必要があります。");
-        }
     }
 }
