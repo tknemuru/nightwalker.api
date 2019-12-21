@@ -109,7 +109,7 @@ public final class PageResource {
      * @return HTMLページ
      */
     private String getHtmlJavascriptEnabled() throws java.io.IOException {
-        final WebClient webClient = new WebClient(BrowserVersion.FIREFOX_24);
+        final WebClient webClient = new WebClient(BrowserVersion.CHROME);
         webClient.waitForBackgroundJavaScript(10000);
         HtmlPage page = webClient.getPage(this.Url);
 

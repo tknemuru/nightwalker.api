@@ -36,8 +36,8 @@ public class PageParserTest {
         html.append("          <ul class=\"info\" id=\"info_1\">");
         html.append("            <li class=\"category\"><!--Category : --><a href=\"blog-category-2.html\">FC2動画</a></li>");
         html.append("          </ul>");
-        html.append("          <a class=\"testpage\" href=\"http://www.28lab.com/\">");
-        html.append("          <a class=\"testpage2\" href=\"http://www.28lab.com/\">");
+        html.append("          <a class=\"testpage\" href=\"https://www.28lab.com/\">");
+        html.append("          <a class=\"testpage2\" href=\"https://www.28lab.com/\">");
         html.append("        </div>");
         html.append("        <div class=\"block entry\" id=\"entry4631\" style=\"cursor: pointer; background-color: rgb(225, 222, 201);\">");
         html.append("          <ul class=\"info\" id=\"info_1\">");
@@ -61,13 +61,13 @@ public class PageParserTest {
         // 抽出計画の作成
         StringBuilder planStr = new StringBuilder();
         planStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        planStr.append("<page url=\"http://www.28lab.com/\">");
+        planStr.append("<page url=\"https://www.28lab.com/\">");
         planStr.append("    <elements selector=\".info\" />");
         planStr.append("</page>");
         Element plan = XmlParser.parseFromString(planStr.toString());
         
         PageResource page = PageParser.parse(plan);
-        assertTrue(page.getHtml().contains("28Lab"));
+        assertTrue(page.getHtml(false).contains("28Lab"));
     }
     
     @Test
@@ -84,7 +84,7 @@ public class PageParserTest {
         // 抽出計画の作成
         StringBuilder planStr = new StringBuilder();
         planStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        planStr.append("<page url=\"http://www.example.com/\" html=\"" + pageStr + "\">");
+        planStr.append("<page url=\"https://www.example.com/\" html=\"" + pageStr + "\">");
         planStr.append("  <values selector=\"h1\" attr=\"text\" />");
         planStr.append("</page>");
         Element plan = XmlParser.parseFromString(planStr.toString());
@@ -105,8 +105,8 @@ public class PageParserTest {
 
         org.jsoup.nodes.Element container = this.Page.getDocument().select(".entry").first();
         
-        PageResource innerPage = PageParser.parse(plan, container, "http://www.28lab.com");
-        assertTrue(innerPage.getHtml().contains("28Lab"));
+        PageResource innerPage = PageParser.parse(plan, container, "https://www.28lab.com");
+        assertTrue(innerPage.getHtml(false).contains("28Lab"));
     }
 
     @Rule
@@ -117,7 +117,7 @@ public class PageParserTest {
         // 抽出計画の作成
         StringBuilder planStr = new StringBuilder();
         planStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        planStr.append("<elements url=\"http://www.28lab.com/\">");
+        planStr.append("<elements url=\"https://www.28lab.com/\">");
         planStr.append("    <elements selector=\".info\" />");
         planStr.append("</elements>");
         Element plan = XmlParser.parseFromString(planStr.toString());
@@ -141,7 +141,7 @@ public class PageParserTest {
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Node名が不正です。 -> " + plan.getNodeName());
-        PageParser.parse(plan, container, "http://www.28lab.com");
+        PageParser.parse(plan, container, "https://www.28lab.com");
     }
 
     @Test
@@ -149,7 +149,7 @@ public class PageParserTest {
         // 抽出計画の作成
         StringBuilder planStr = new StringBuilder();
         planStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        planStr.append("<page url=\"http://www.28lab.com/\" attr=\"href\">");
+        planStr.append("<page url=\"https://www.28lab.com/\" attr=\"href\">");
         planStr.append("    <elements selector=\".info\" />");
         planStr.append("</page>");
         Element plan = XmlParser.parseFromString(planStr.toString());
@@ -179,7 +179,7 @@ public class PageParserTest {
         // 抽出計画の作成
         StringBuilder planStr = new StringBuilder();
         planStr.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        planStr.append("<page selector=\".textBody .imgwrap a\" attr=\"href\" url=\"http://www.28lab.com\">");
+        planStr.append("<page selector=\".textBody .imgwrap a\" attr=\"href\" url=\"https://www.28lab.com\">");
         planStr.append("    <values selector=\".info\" />");
         planStr.append("</page>");
         Element plan = XmlParser.parseFromString(planStr.toString());
@@ -188,7 +188,7 @@ public class PageParserTest {
         
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("アトリビュートキーが不正です。 -> " + plan.getAttributes());
-        PageParser.parse(plan, container, "http://www.28lab.com");
+        PageParser.parse(plan, container, "https://www.28lab.com");
     }
 
     @Test
@@ -205,6 +205,6 @@ public class PageParserTest {
 
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("URLを取得する対象の要素数を1にしてください。");
-        PageParser.parse(plan, container, "http://www.28lab.com");
+        PageParser.parse(plan, container, "https://www.28lab.com");
     }
 }

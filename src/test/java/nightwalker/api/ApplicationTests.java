@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringBootTest(classes = Application.class)
 @WebAppConfiguration
 @ActiveProfiles("scratch")
 // Separate profile for web tests to avoid clashing databases
@@ -42,8 +42,8 @@ public class ApplicationTests {
     public void レスポンスに抽出対象の画像とリンク先が含まれている() throws Exception {
 
         this.mvc.perform(get("/api/v1/url/images/?target=http%3a%2f%2fwww%2e28lab%2ecom%2f")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("http://www.28lab.com/Content/Image/fujitv.png")))
-                .andExpect(content().string(containsString("http://www.28lab.com/video.html")))
+                .andExpect(content().string(containsString("https://www.28lab.com/Content/Image/fujitv.png")))
+                .andExpect(content().string(containsString("https://www.28lab.com/video.html")))
                 .andExpect(content().string(containsString("https://www.facebook.com/28lab")));
 
     }

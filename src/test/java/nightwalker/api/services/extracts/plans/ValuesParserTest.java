@@ -34,6 +34,7 @@ public class ValuesParserTest {
         StringBuilder html = new StringBuilder();
         html.append("<html>");
         html.append("  <head></head>");
+
         html.append("  <body>");
         html.append("    <div class=\"layout\" style=\"position: absolute; left: 750px; top: 3071px;\">");
         html.append("      <article>");
@@ -45,7 +46,7 @@ public class ValuesParserTest {
         html.append("            <li class=\"tags\">tag3</li>");
         html.append("          </ul>");
         html.append("          <h1>");
-        html.append("            <a href=\"http://www.example.com/test.html\">desc test 1</a>");
+        html.append("            <a href=\"https://www.example.com/test.html\">desc test 1</a>");
         html.append("            <a class=\"formattest\" href=\"test.html\">desc test 1</a>");
         html.append("            <img class=\"formattest2\" src=\"test.jpg\">desc test 1</img>");
         html.append("          </h1>");
@@ -55,7 +56,7 @@ public class ValuesParserTest {
         html.append("            <li class=\"category\"><!--Category : --><a href=\"blog-category-2.html\">X-Videos</a></li>");
         html.append("          </ul>");
         html.append("          <h1>");
-        html.append("            <a href=\"http://www.example.com/test.html\">desc test 2</a>");
+        html.append("            <a href=\"https://www.example.com/test.html\">desc test 2</a>");
         html.append("          </h1>");
         html.append("        </div>");
         html.append("        <div class=\"block entry\" id=\"entry4631\" style=\"cursor: pointer; background-color: rgb(225, 222, 201);\">");
@@ -63,7 +64,7 @@ public class ValuesParserTest {
         html.append("            <li class=\"category\"><!--Category : --><a href=\"blog-category-2.html\">FC2動画</a></li>");
         html.append("          </ul>");
         html.append("          <h1>");
-        html.append("            <a href=\"http://www.example.com/test.html\">desc test 3</a>");
+        html.append("            <a href=\"https://www.example.com/test.html\">desc test 3</a>");
         html.append("          </h1>");
         html.append("        </div>");
         html.append("      </article>");
@@ -106,7 +107,7 @@ public class ValuesParserTest {
 
         List<String> values = ValuesParser.parse(plan, this.Container, this.Page.getUrl().toString());
 
-        assertEquals("http://www.example.com/test.html", values.get(0));
+        assertEquals("https://www.example.com/test.html", values.get(0));
     }
     
     @Test

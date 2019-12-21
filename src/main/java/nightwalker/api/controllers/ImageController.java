@@ -31,7 +31,7 @@ public class ImageController {
     @RequestMapping(method = RequestMethod.GET
             , produces = {MediaType.APPLICATION_JSON_VALUE})
     public ImageControllerResponse index(HttpServletResponse response
-            , @RequestParam("target") String targetUrl) throws URISyntaxException, java.io.IOException
+            , @RequestParam("target") String targetUrl) throws URISyntaxException, IOException
     {
         ImageControllerResponse myResponse;
         try{
